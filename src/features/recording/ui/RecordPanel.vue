@@ -11,7 +11,7 @@ defineEmits<{ start: [] }>();
     </div>
     <div class="record-top">
       <div>
-        <strong>把现场留住。</strong><small>舞台画面 + 音频 · 30 FPS</small>
+        <strong>把现场留住。</strong><small>投影输出画面 + 音频 · 30 FPS</small>
       </div>
       <span class="record-clock">{{ clock(recorder.state.elapsed) }}</span>
     </div>
@@ -32,6 +32,6 @@ defineEmits<{ start: [] }>();
       }}
     </button>
     <p v-if="recorder.state.error" role="alert">{{ recorder.state.error }}</p>
-    <small class="muted">切换场景不中断录制 · 保存于本次会话</small>
+    <small class="muted">内容与观众窗口一致 · 切换场景不中断录制</small>
   </section>
 </template>

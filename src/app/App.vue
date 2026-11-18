@@ -19,12 +19,20 @@ import {
   SignalMeter,
 } from "../features/live";
 import { createRecorder, RecordPanel, TakeList } from "../features/recording";
+import {
+  createProjection,
+  drawEditorGuides,
+  OutputView,
+  ProjectionPanel,
+} from "../features/projection";
 const doc = createDocument(),
   audio = createAudio(doc),
   scenes = createScenes(doc),
   controls = createControls(doc),
-  recorder = createRecorder();
-const canvas = ref<HTMLCanvasElement>(),
+  recorder = createRecorder(),
+  proj = createProjection();
+const masterCanvas = ref<HTMLCanvasElement>(),
+  outputCanvas = ref<HTMLCanvasElement>(),
   stage = ref<HTMLElement>();
 const fullError = ref("");
 const unbind = bindShortcuts({
@@ -36,8 +44,18 @@ const unbind = bindShortcuts({
   freeze: controls.freeze,
   tap: controls.tap,
 });
+// 编辑区参考线：未变形舞台 + 各投影源区域（试调时对照已确认版本）
+const stageOverlay = (c: CanvasRenderingContext2D, w: number, h: number) =>
+  drawEditorGuides(
+    c,
+    w,
+    h,
+    proj.view.value,
+    proj.trial.value ? proj.outputs : undefined,
+  );
 function start() {
-  if (canvas.value) recorder.start(canvas.value, audio.stream());
+  // 录制的是实际投影输出，与观众窗口一致
+  if (outputCanvas.value) recorder.start(outputCanvas.value, audio.stream());
 }
 async function fullscreen() {
   try {
@@ -101,7 +119,8 @@ onUnmounted(() => {
             <StageCanvas
               :doc="doc"
               :read="() => audio.frame.value"
-              @ready="canvas = $event"
+              :overlay="stageOverlay"
+              @master="masterCanvas = $event"
             />
             <div class="stage-caption">
               <small
@@ -115,6 +134,11 @@ onUnmounted(() => {
           <SignalMeter :frame="audio.frame.value" />
         </section>
         <p v-if="fullError" role="alert">{{ fullError }}</p>
+        <OutputView
+          :proj="proj"
+          :stage="() => masterCanvas"
+          @ready="outputCanvas = $event"
+        />
         <SceneStrip :doc="doc" @select="scenes.select" /><ThemePanel
           :scene="scenes.active.value"
         /><TakeList :recorder="recorder" />
@@ -124,7 +148,10 @@ onUnmounted(() => {
           :doc="doc"
           :controls="controls"
           :beat="audio.frame.value.beat"
-        /><RecordPanel :recorder="recorder" @start="start" />
+        /><RecordPanel :recorder="recorder" @start="start" /><ProjectionPanel
+          :proj="proj"
+          :stage="() => masterCanvas"
+        />
         <div class="note">
           <Radio :size="19" />
           <p>

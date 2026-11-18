@@ -775,6 +775,164 @@ footer i {
   height: 100%;
   object-fit: contain;
 }
+/* 投影输出 */
+.output-wrap {
+  position: relative;
+  background: #000;
+  line-height: 0;
+}
+.output-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+.output-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+.output-wrap:fullscreen {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.output-wrap:fullscreen .output-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.output-wrap:fullscreen .output-overlay {
+  display: none;
+}
+.output-status {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 17px;
+  border-top: 1px solid #1d1e26;
+  color: #7e7c90;
+  font:
+    8px "Space Grotesk",
+    sans-serif;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+.output-warning {
+  color: #ff9fb0;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  margin-left: 14px;
+}
+.trial-hint {
+  color: #c9b3f5;
+}
+.stage-toolbar .tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font:
+    9px "Space Grotesk",
+    sans-serif;
+  letter-spacing: 0.5px;
+}
+.stage-toolbar .tool-btn.selected {
+  background: #2d273c;
+  border-color: #4b3d63;
+  color: #ccbbf7;
+}
+/* 投影控制面板 */
+.trial-bar {
+  border: 1px dashed #32303e;
+  border-radius: 7px;
+  padding: 11px 12px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 10px;
+  color: #8f8ba0;
+  line-height: 1.6;
+}
+.trial-bar.on {
+  border-color: #6f5e9d;
+  color: #cbb8f2;
+}
+.trial-bar > div {
+  display: flex;
+  gap: 7px;
+}
+.trial-bar button {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 10px;
+}
+.trial-bar .apply {
+  background: #c1aaf3;
+  border: 0;
+  color: #21172f;
+  font-weight: 600;
+}
+.trial-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  margin-top: 14px;
+  background: #000;
+  border: 1px solid #2c2b38;
+  border-radius: 6px;
+}
+.preview-note {
+  margin-top: 7px;
+}
+.proj-output {
+  border-top: 1px solid #1f2029;
+  margin-top: 16px;
+}
+.proj-output-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.proj-output-head strong {
+  font:
+    11px "Space Grotesk",
+    sans-serif;
+}
+.proj-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.proj-output-head label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 9px;
+  color: #8f909f;
+  cursor: pointer;
+}
+.proj-output-head button {
+  padding: 4px 8px;
+  font-size: 9px;
+}
+.proj-invalid {
+  color: #ff9fb0;
+  font-size: 9px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.proj-hint {
+  display: block;
+  margin-top: 16px;
+  line-height: 1.7;
+}
 @media (min-width: 1500px) {
   main {
     grid-template-columns: 280px minmax(600px, 1fr) 270px;
